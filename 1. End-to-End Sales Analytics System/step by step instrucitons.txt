@@ -1,0 +1,264 @@
+🚀 End-to-End Sales Analytics System (Excel Project)
+📊 Built Using
+Microsoft Excel (Power Query + Data Model + Pivot Tables + Dashboard)
+🎯 Project Objective
+
+To build a complete sales analytics system that:
+
+Cleans raw data
+Creates a data model
+Generates KPIs
+Builds an interactive dashboard
+📁 Step 0: Dataset Setup
+0.1 Open Dataset
+
+The file contains 3 sheets:
+
+Orders
+Customers
+Products
+0.2 Convert Data into Tables
+
+For each sheet:
+
+Select any cell
+Press Ctrl + T
+Enable → My table has headers
+Rename tables:
+Sheet	Table Name
+Orders	tbl_orders
+Customers	tbl_customers
+Products	tbl_products
+
+👉 Go to: Table Design → Table Name
+
+🧹 Step 1: Data Cleaning using Power Query
+1.1 Load Orders into Power Query
+Click inside tbl_orders
+
+Go to:
+
+Data → From Table/Range
+
+1.2 Fix Data Types
+
+Set:
+
+OrderID → Text
+OrderDate → Date
+CustomerID → Text
+ProductID → Text
+Region → Text
+Sales → Decimal
+Profit → Decimal
+⚠️ Common Issue: Date Options Not Visible
+
+If Add Column → Date is disabled:
+
+👉 Fix:
+
+Select OrderDate
+
+Go to:
+
+Transform → Data Type → Date
+
+If error:
+
+Transform → Using Locale → Date → English (US)
+
+1.3 Remove Errors / Nulls
+Remove blank IDs
+Replace null Sales/Profit → 0
+1.4 Remove Duplicates
+Select OrderID
+Home → Remove Rows → Remove Duplicates
+1.5 Create Date Columns
+
+Go to:
+
+Add Column → Date
+
+Add:
+
+Year
+Month
+Month Name
+Quarter
+1.6 Create Month-Year Column
+
+Add Custom Column:
+
+Text.From([Year]) & "-" & Text.PadStart(Text.From([Month]),2,"0")
+1.7 Create Profit Margin
+[Profit] / [Sales]
+1.8 Load Data (VERY IMPORTANT)
+
+Do NOT click simple load.
+
+Go to:
+
+Close & Load To
+
+Select:
+
+Only Create Connection
+Add this data to Data Model
+
+Rename query:
+👉 q_orders
+
+⚠️ Common Issue: “0 Queries Showing”
+
+This happens if you used normal load.
+
+👉 Fix:
+
+Reload using “Close & Load To”
+Select “Only Connection + Data Model”
+🔁 Step 2: Clean Customers
+Load to Power Query
+Remove duplicates (CustomerID)
+Trim spaces
+⚠️ “Standardize Category” Confusion
+
+There is no button.
+
+👉 Use:
+
+Transform → Format → Trim
+Replace Values for fixing names
+
+Load as:
+👉 q_customers
+
+🔁 Step 3: Clean Products
+Remove duplicates
+Fix category names
+Trim spaces
+
+Load as:
+👉 q_products
+
+🔍 Step 4: Verify Queries
+
+Go to:
+
+Data → Queries & Connections
+
+You should see:
+
+q_orders
+q_customers
+q_products
+🔗 Step 5: Data Modeling
+5.1 Open Model
+
+If “Relationships” not visible:
+
+👉 Enable:
+
+File → Options → Add-ins
+Enable Power Pivot
+
+Then:
+
+Power Pivot → Manage
+
+5.2 Create Relationships
+
+In Diagram View:
+
+Orders[CustomerID] → Customers[CustomerID]
+Orders[ProductID] → Products[ProductID]
+⚠️ Common Issue: Cannot Find Relationships
+
+👉 Use:
+
+Power Pivot → Manage → Diagram View
+
+📊 Step 6: Pivot Tables
+6.1 Insert Pivot
+
+Go to:
+
+Insert → Pivot Table
+
+Select:
+👉 Use this workbook’s Data Model
+
+⚠️ Common Issue: “No Sum/Count Option”
+
+👉 Drag field into VALUES first
+Then:
+
+Click dropdown → Value Field Settings
+📈 Step 7: Create Analysis (Separate Pivot Tables)
+
+👉 Always create NEW pivot for each analysis
+
+7.1 Monthly Trend
+Rows → Month Name
+Values → Sales
+
+⚠️ Fix sorting:
+
+Add Month Number above Month Name
+7.2 Top Products
+Rows → Product Name
+Values → Sales
+Sort descending
+Apply Top 10 filter
+7.3 Sales by Region
+Rows → Region
+Values → Sales
+📊 Step 8: Create Charts
+8.1 Line Chart (Monthly Trend)
+Select pivot
+Insert → Line Chart
+8.2 Bar Chart (Top Products)
+Insert → Bar Chart
+8.3 Pie Chart (Region)
+Insert → Pie Chart
+🎯 Step 9: KPI Cards
+9.1 Create KPI Values
+
+From pivot:
+
+Total Sales
+Total Profit
+Total Orders
+9.2 Link to Dashboard
+
+In Dashboard:
+
+= PivotCell
+9.3 Format
+Large font
+Bold
+Add labels
+🎛️ Step 10: Add Slicers
+Click Pivot
+Insert Slicer
+
+Add:
+
+Region
+Category
+Year
+Connect Slicers
+Click slicer → Report Connections
+Select all pivots
+🎨 Step 11: Final Dashboard Design
+Remove gridlines
+Use consistent colors
+Align charts
+Add title:
+
+👉 Sales Analytics Dashboard
+
+🧠 Key Learnings
+Data Cleaning (Power Query)
+Data Modeling
+Pivot Analysis
+Dashboard Design
