@@ -1,0 +1,373 @@
+🚀 Financial Planning & Forecasting Model (Excel)
+
+Built using: Microsoft Excel
+
+🎯 What Are We Building?
+
+We are building a simple financial model that answers:
+
+How much did we earn? (Revenue)
+How much did we spend? (Cost)
+Did we perform better than plan? (Budget vs Actual)
+What will happen in the future? (Forecast)
+🧠 VERY IMPORTANT CONCEPT (Understand First)
+
+Before steps, understand this:
+
+👉 Excel models have 3 layers:
+
+Data → Actual numbers (what happened)
+Logic → Formulas (how we calculate)
+Control → Assumptions (what we can change)
+💡 What is “Assumptions”?
+
+Assumptions = inputs that control the model
+
+Example:
+
+Growth Rate = 10%
+Cost Increase = 5%
+
+👉 Instead of writing 1.1 everywhere, we store 10% in one place
+
+Why?
+If business changes → update 1 cell
+Entire model updates automatically
+
+
+📁 STEP 0: Understand Dataset
+
+You have 3 sheets:
+
+1. Actuals
+
+👉 Real data (past performance)
+
+2. Budget
+
+👉 Planned numbers
+
+3. Assumptions
+
+👉 Future control values (VERY IMPORTANT)
+
+🧱 STEP 1: Convert to Tables
+Why?
+
+Tables make formulas easier and dynamic
+
+Do this:
+Click data
+Press Ctrl + T
+Rename:
+tbl_actuals
+tbl_budget
+tbl_assumptions
+
+
+📊 STEP 2: Build Income Statement
+What is Income Statement?
+
+👉 A summary of:
+
+Revenue
+Cost
+Profit
+
+
+Step 2.1: Create New Sheet
+
+Name:
+👉 Income_Statement
+
+Step 2.2: Create Columns
+
+| Month | Revenue | Cost | Profit |
+
+Step 2.3: Add Months
+
+Copy Month column from Actuals
+
+Step 2.4: Calculate Revenue
+=SUMIFS(tbl_actuals[Revenue], tbl_actuals[Month], A2)
+Why?
+
+👉 We are grouping data month-wise
+
+Step 2.5: Calculate Cost
+=SUMIFS(tbl_actuals[Cost], tbl_actuals[Month], A2)
+Step 2.6: Profit
+= B2 - C2
+Why?
+
+👉 Profit = Revenue - Cost
+
+
+📊 STEP 3: Budget vs Actual
+Why this step?
+
+Businesses compare:
+👉 What we planned vs what actually happened
+
+Step 3.1: Add Budget Columns
+
+| Budget Revenue | Budget Cost |
+
+Step 3.2: Fetch Budget Data
+=VLOOKUP(A2, tbl_budget, 2, FALSE)
+=VLOOKUP(A2, tbl_budget, 3, FALSE)
+Why?
+
+👉 Match Month → get budget numbers
+
+Step 3.3: Variance
+= Actual - Budget
+Why?
+
+👉 Shows performance difference
+
+
+✅ 1. Revenue Variance
+
+👉 Formula:
+
+= B2 - E2
+Meaning:
+B2 = Actual Revenue
+E2 = Budget Revenue
+
+👉 This tells you:
+
+Positive → Good (Actual > Budget)
+Negative → Bad (Actual < Budget)
+✅ 2. Cost Variance
+
+👉 Formula:
+
+= C2 - F2
+Meaning:
+C2 = Actual Cost
+F2 = Budget Cost
+
+👉 Interpretation:
+
+Negative → Good (spent less than budget)
+Positive → Bad (overspending)
+
+
+🔮 STEP 4: Forecast (THIS IS WHERE ASSUMPTIONS MATTER)
+🧠 WHY FORECAST?
+
+We want to answer:
+👉 What will happen next?
+
+🔧 Step 4.1: Read Assumptions
+
+From Assumptions sheet:
+
+| Growth Rate | 10% |
+| Cost Increase | 5% |
+
+💡 WHY WE USE ASSUMPTIONS
+
+Instead of writing:
+
+= B2 * 1.1
+
+We do:
+
+= B2 * (1 + Growth Rate)
+
+👉 Because:
+
+Easy to change
+More professional
+Used in real companies
+
+🧱 STEP 4.2: Bring Assumptions into Model
+
+Create small section in Income Sheet:
+
+Cell	Value
+I1	Growth Rate
+I2	=Assumptions!B2 / 100
+J1	Cost Increase
+J2	=Assumptions!B3 / 100
+
+Why divide by 100?
+
+Because:
+
+10 → means 10%
+Excel needs 0.10
+
+🔮 STEP 4.3: Add Future Months
+Why?
+
+Your data ends at Dec-2024
+We want future → Jan-2025 onward
+
+Add manually:
+Jan-2025
+Feb-2025
+Mar-2025
+(6 months total)
+
+
+🔮 Step 4.4: Forecast Revenue
+= Previous Month Revenue * (1 + Growth Rate)
+
+Example:
+
+= B25 * (1 + $G$2)
+🧠 Simple Meaning:
+
+👉 “Take last month’s revenue
+👉 Increase it by 10%”
+
+🔮 Step 4.5: Forecast Cost
+
+= C25 * (1 + $H$2)
+Meaning:
+
+👉 Costs also grow
+
+🔁 Step 4.6: Drag Formula
+
+👉 This repeats the logic for all future months
+
+💰 Step 4.7: Profit
+
+= Revenue - Cost
+🎯 Final Output
+
+You now have:
+
+Month	Revenue	Cost	Profit
+Past	Actual	Actual	Actual
+Future	Forecast	Forecast	Forecast
+🧠 FINAL UNDERSTANDING
+What did we really do?
+Took past data
+Compared with plan
+Predicted future
+Why this is powerful?
+
+Because now you can:
+
+👉 Change Growth Rate → see impact
+👉 Change Cost Increase → see profit change
+
+🚀 You Just Built
+Financial model
+Forecast system
+Business decision tool
+💡 Think Like Analyst
+
+Try this:
+
+👉 Change Growth Rate from 10% → 20%
+
+👉 Watch revenue grow faster
+
+👉 That’s real analysis
+
+
+Actual vs Forecast Chart step-by-step (very clearly)
+
+
+🎯 WHAT YOU ARE BUILDING
+
+A line chart that shows:
+
+Actual data (past)
+Forecast data (future)
+
+👉 Like this mentally:
+
+Actual (solid line) ─────────
+                           \
+                            \ Forecast (continues)
+
+
+🧱 STEP 1: Prepare Your Data (Very Important)
+
+Go to your Income_Statement sheet
+
+You should have:
+
+Month	Revenue
+Jan-2024	100000
+Feb-2024	110000
+...	...
+Dec-2024	120000
+Jan-2025	(forecast)
+Feb-2025	(forecast)
+⚠️ IMPORTANT PROBLEM
+
+If you directly create chart:
+
+👉 Excel will show one continuous line
+👉 You cannot see where forecast starts ❌
+
+
+✅ SOLUTION: Create 2 Separate Columns
+
+➤ Add 2 new columns:
+Actual Revenue
+Forecast Revenue
+🧠 WHY?
+
+We split data so chart shows:
+
+Actual → one line
+Forecast → another line
+
+👉 This is how professionals do it
+
+🧮 STEP 2: Fill Actual Revenue Column
+
+👉 Formula (important logic):
+
+In first row:
+
+=IF(A2<=DATE(2024,12,1), B2, NA())
+🧠 Meaning:
+If month is past → show value
+If month is future → hide it (NA)
+
+🧮 STEP 3: Fill Forecast Revenue Column
+
+=IF(A2>=DATE(2024,12,1), B2, NA())
+Meaning:
+Only show forecast values
+Hide actual values
+⚠️ WHY WE USE NA()
+
+👉 Excel does NOT plot NA
+👉 This creates a break in the line
+
+📊 STEP 4: Create Chart
+
+👉 Select this data:
+Month
+Actual Revenue
+Forecast Revenue
+👉 Insert chart:
+
+Go to:
+
+Insert → Line Chart → 2D Line
+
+🎯 STEP 5: Fix Chart Appearance
+
+Rename lines:
+Actual Revenue → Actual
+Forecast Revenue → Forecast
+Format lines:
+Actual → Solid line
+Forecast → Dashed line
+Add title:
+
+👉 Actual vs Forecast Revenue
+
