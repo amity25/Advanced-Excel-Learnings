@@ -1,0 +1,649 @@
+Customer Segmentation & Behavior Analysis (RFM Project in Excel)
+
+This is a very strong portfolio project because it shows:
+
+Business thinking
+Customer analytics
+Excel formulas
+Dashboarding
+Data cleaning
+Decision-making skills
+
+This project is commonly done in:
+
+E-commerce
+Retail
+SaaS companies
+Subscription businesses
+Marketing analytics
+PROJECT GOAL
+
+Analyze customer purchasing behavior using:
+
+R = Recency → How recently customer purchased
+F = Frequency → How often customer purchases
+M = Monetary → How much money customer spends
+
+Then classify customers into:
+
+High-value customers
+Loyal customers
+At-risk customers
+New customers
+Low-value customers
+TOOLS USED
+Excel
+Pivot Tables
+Excel formulas
+Conditional Formatting
+Charts
+Dashboard
+FINAL OUTPUT YOU WILL BUILD
+
+You will create:
+
+Clean transaction dataset
+Customer-level summary table
+RFM scoring system
+Customer segmentation logic
+Interactive dashboard
+STEP 1 — CREATE RAW DATASET
+
+Create an Excel sheet named:
+
+Sheet Name:
+
+Raw_Data
+
+Now create these columns:
+
+Order_ID	Customer_ID	Customer_Name	Order_Date	Revenue
+
+SAMPLE RAW DATA (COPY THIS)
+
+Order_ID	Customer_ID	Customer_Name	Order_Date	Revenue
+1001	C001	Amit	02-01-2024	120
+1002	C002	Rahul	05-01-2024	340
+1003	C003	Priya	06-01-2024	220
+1004	C001	Amit	12-01-2024	560
+1005	C004	Neha	15-01-2024	180
+1006	C002	Rahul	22-01-2024	410
+1007	C005	Karan	25-01-2024	90
+1008	C003	Priya	02-02-2024	620
+1009	C001	Amit	05-02-2024	250
+1010	C006	Meera	08-02-2024	700
+1011	C007	Ravi	15-02-2024	120
+1012	C004	Neha	20-02-2024	260
+1013	C002	Rahul	01-03-2024	540
+1014	C003	Priya	03-03-2024	310
+1015	C005	Karan	05-03-2024	140
+1016	C001	Amit	08-03-2024	890
+1017	C008	Sonia	10-03-2024	450
+1018	C009	Vikram	12-03-2024	170
+1019	C006	Meera	18-03-2024	760
+1020	C010	Pooja	22-03-2024	130
+1021	C003	Priya	25-03-2024	510
+1022	C002	Rahul	28-03-2024	620
+1023	C001	Amit	02-04-2024	410
+1024	C004	Neha	04-04-2024	280
+1025	C007	Ravi	08-04-2024	350
+1026	C006	Meera	12-04-2024	920
+1027	C003	Priya	15-04-2024	450
+1028	C005	Karan	18-04-2024	200
+1029	C001	Amit	20-04-2024	1000
+1030	C002	Rahul	25-04-2024	580
+
+
+STEP 2 — CONVERT DATA INTO TABLE
+
+Select all data → Press:
+
+CTRL + T
+
+Name the table:
+
+Sales_Data
+
+
+STEP 3 — CREATE CUSTOMER SUMMARY TABLE
+
+Create new sheet:
+
+Sheet Name:
+
+Customer_Summary
+
+Now create these headers:
+
+Customer_ID	Customer_Name	Total_Revenue	Frequency	Last_Order_Date	Recency
+
+
+STEP 4 — GET UNIQUE CUSTOMERS
+
+Copy unique customer IDs manually OR use:
+
+=UNIQUE(Raw_Data!B2:B31)
+
+Customer names:
+
+=XLOOKUP(A2,Raw_Data!B:B,Raw_Data!C:C)
+
+
+STEP 5 — CALCULATE TOTAL REVENUE (M)
+
+Formula:
+=SUMIFS(Raw_Data!E:E,Raw_Data!B:B,A2)
+
+This gives:
+
+Total money spent by customer
+
+
+STEP 6 — CALCULATE FREQUENCY (F)
+
+Formula:
+=COUNTIFS(Raw_Data!B:B,A2)
+
+This gives:
+
+Number of orders
+
+
+STEP 7 — FIND LAST ORDER DATE
+
+Formula:
+=MAXIFS(Raw_Data!D:D,Raw_Data!B:B,A2)
+
+
+STEP 8 — CALCULATE RECENCY (R)
+
+Assume analysis date is:
+
+30-04-2024
+
+Put this date in one cell:
+Example:
+
+J1 = 30-04-2024
+
+Now calculate Recency:
+
+=$J$1-E2
+
+Meaning:
+
+Smaller number = more recent customer
+Larger number = inactive customer
+
+
+STEP 9 — CREATE RFM SCORES
+
+Now create new columns:
+
+R_Score	F_Score	M_Score
+
+
+STEP 10 — CREATE RECENCY SCORE
+
+Smaller recency is better.
+
+Formula:
+=IF(F2<=30,5,
+IF(F2<=60,4,
+IF(F2<=90,3,
+IF(F2<=120,2,1))))
+
+
+STEP 11 — CREATE FREQUENCY SCORE
+
+Higher frequency is better.
+
+Formula:
+=IF(D2>=5,5,
+IF(D2=4,4,
+IF(D2=3,3,
+IF(D2=2,2,1))))
+
+
+STEP 12 — CREATE MONETARY SCORE
+
+Higher revenue is better.
+
+Formula:
+=IF(C2>=2500,5,
+IF(C2>=1800,4,
+IF(C2>=1200,3,
+IF(C2>=600,2,1))))
+
+
+STEP 13 — CREATE FINAL RFM SCORE
+
+Create column:
+
+| RFM_Score |
+
+Formula:
+
+=G2&H2&I2
+
+Example:
+
+555
+543
+211
+
+
+STEP 14 — CUSTOMER SEGMENTATION
+
+Create column:
+
+| Segment |
+
+Use this formula:
+
+=IF(AND(G2>=4,H2>=4,I2>=4),"High Value",
+IF(AND(G2>=4,H2>=3),"Loyal",
+IF(G2<=2,"At Risk",
+IF(H2=1,"Low Engagement","Regular"))))
+
+
+STEP 15 — APPLY CONDITIONAL FORMATTING
+
+Use colors:
+
+Segment	Color
+High Value	Green
+Loyal	Blue
+At Risk	Red
+Regular	Yellow
+
+
+STEP 1 — SELECT SEGMENT CELLS
+
+Go to:
+
+Customer_Summary sheet
+
+Suppose Segment column is:
+
+K2:K11
+
+Select all segment cells.
+
+Example:
+
+Click K2
+Drag till K11
+
+STEP 2 — OPEN CONDITIONAL FORMATTING
+
+Go to:
+
+Home Tab → Conditional Formatting
+
+You will see dropdown options.
+
+STEP 3 — CREATE RULE FOR "HIGH VALUE"
+
+Click:
+
+Conditional Formatting
+→ Highlight Cells Rules
+→ Text That Contains
+
+A small box opens.
+
+STEP 4 — ENTER TEXT
+
+Type:
+
+High Value
+STEP 5 — CHOOSE COLOR
+
+From dropdown:
+Choose:
+
+Green Fill
+
+OR
+
+Choose:
+
+Custom Format
+
+Then:
+
+Fill → Green
+Font → White/Bold (optional)
+
+Click:
+
+OK
+
+Now all "High Value" customers become green.
+
+Repat for other segements....
+
+
+
+
+DASHBOARDS CHARTS 
+
+
+CREATE CHARTS (Detailed Beginner Guide)
+
+Now your data analysis part is complete.
+
+Next step:
+
+Turn data into visual insights
+
+This is what makes dashboards look professional.
+
+BEFORE STARTING
+
+You should already have:
+
+Customer_Summary sheet
+
+with columns like:
+
+Customer_Name	Total_Revenue	Frequency	Segment
+
+Example:
+
+| Amit | 3230 | 5 | High Value |
+| Rahul | 2490 | 4 | Loyal |
+
+CHART 1 — REVENUE BY SEGMENT (PIE CHART)
+
+Goal:
+
+Show which customer segment contributes most revenue.
+
+Example:
+
+High Value → 60%
+Loyal → 25%
+At Risk → 15%
+STEP 1 — CREATE PIVOT TABLE
+
+Go to:
+
+Customer_Summary sheet
+
+Click anywhere inside your table.
+
+STEP 2 — INSERT PIVOT TABLE
+
+Go to:
+
+Insert → PivotTable
+
+A box appears.
+
+Choose:
+
+Select Table/Range → already selected
+New Worksheet → YES
+
+Click:
+
+OK
+
+Excel creates new sheet.
+
+STEP 3 — BUILD PIVOT TABLE
+
+On right side you’ll see:
+
+PivotTable Fields
+
+Drag fields like this:
+
+ROWS AREA
+
+Drag:
+
+Segment
+
+into:
+
+Rows
+
+Now Excel shows:
+
+High Value
+Loyal
+At Risk
+Regular
+VALUES AREA
+
+Drag:
+
+Total_Revenue
+
+into:
+
+Values
+
+Excel automatically creates:
+
+Sum of Total_Revenue
+
+Now you have:
+
+Segment	Sum of Revenue
+High Value	6000
+Loyal	3500
+At Risk	1200
+STEP 4 — CREATE PIE CHART
+
+Click anywhere inside Pivot Table.
+
+Go to:
+
+Insert → Pie Chart
+
+Choose:
+
+2D Pie Chart
+
+Done.
+
+WHAT THIS CHART SHOWS
+
+Business can instantly see:
+
+Which customer segment brings most revenue
+Which customers matter most
+
+Very common business visualization.
+
+MAKE IT LOOK PROFESSIONAL
+
+Click chart →
+
+Chart Design
+
+Change:
+
+Colors
+Style
+Add labels
+ADD DATA LABELS
+
+Right click pie →
+
+Add Data Labels
+
+Now chart shows percentages.
+
+Very important.
+
+CHART 2 — CUSTOMERS BY SEGMENT (BAR CHART)
+
+Goal:
+
+Show how many customers exist in each segment.
+
+Example:
+
+5 High Value customers
+2 At Risk customers
+STEP 1 — CREATE SECOND PIVOT TABLE
+
+Again:
+
+Insert → Pivot Table
+
+New worksheet.
+
+STEP 2 — BUILD PIVOT
+ROWS
+
+Drag:
+
+Segment
+
+to Rows.
+
+VALUES
+
+Drag:
+
+Customer_ID
+
+to Values.
+
+Excel may show:
+
+Count of Customer_ID
+
+Perfect.
+
+RESULT
+Segment	Count of Customers
+High Value	3
+Loyal	4
+At Risk	2
+STEP 3 — CREATE BAR CHART
+
+Click Pivot Table.
+
+Go to:
+
+Insert → Bar Chart
+
+Choose:
+
+Clustered Bar Chart
+
+Done.
+
+WHY BAR CHART?
+
+Bar charts are best for:
+
+Comparing categories
+Comparing counts
+
+Much easier to read than pie chart.
+
+
+
+SLICERS 
+
+
+ADD SLICERS
+
+Now we make dashboard interactive.
+
+Slicers are like filters with buttons.
+
+WHAT SLICERS DO
+
+Example:
+Click:
+
+High Value
+
+Dashboard instantly updates:
+
+Charts
+Pivot tables
+KPIs
+
+Very professional.
+
+STEP 1 — CLICK PIVOT TABLE
+
+Click any Pivot Table.
+
+STEP 2 — INSERT SLICER
+
+Go to:
+
+PivotTable Analyze → Insert Slicer
+
+(Older Excel may show:
+
+Options → Insert Slicer
+
+)
+
+STEP 3 — SELECT FIELDS
+
+Check:
+
+✅ Segment
+✅ Customer_Name
+
+Click:
+
+OK
+RESULT
+
+You’ll see filter boxes like:
+
+Segment
+High Value
+Loyal
+At Risk
+HOW TO USE
+
+Click:
+
+High Value
+
+Dashboard instantly filters.
+
+Hold:
+
+CTRL
+
+to select multiple items.
+
+CONNECT SLICER TO ALL CHARTS
+
+IMPORTANT STEP.
+
+Otherwise slicer filters only one pivot table.
+
+HOW TO CONNECT
+
+Right click slicer →
+
+Report Connections
+
+(or:
+
+PivotTable Connections
+
+)
+
+Check all pivot tables.
+
+Click OK.
+
+Now one slicer controls entire dashboard.
