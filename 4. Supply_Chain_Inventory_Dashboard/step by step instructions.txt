@@ -16,6 +16,7 @@ This project uses only Excel.
 STEP 1 — CREATE WORKBOOK
 File Name
 Supply Chain Inventory Dashboard.xlsx
+
 STEP 2 — CREATE SHEETS
 
 Create these sheets:
@@ -26,13 +27,15 @@ Orders Data	Orders and deliveries
 Suppliers	Supplier details
 Calculations	KPI calculations
 Dashboard	Final dashboard
+
 STEP 3 — INVENTORY DATA
 
 Create this table in Inventory Data
 
 Columns
-Product ID	Product Name	Category	Supplier	Current Stock	Reorder Level	Unit Cost	Last Restock Date
+
 DEMO DATA — INVENTORY DATA
+
 Product ID	Product Name	Category	Supplier	Current Stock	Reorder Level	Unit Cost	Last Restock Date
 P001	Keyboard	Electronics	TechSource	120	50	20	01-Jan-2026
 P002	Mouse	Electronics	TechSource	30	40	10	10-Jan-2026
@@ -44,13 +47,13 @@ P007	Pen Pack	Stationery	PaperWorld	500	150	5	28-Jan-2026
 P008	Monitor	Electronics	VisionTech	22	15	180	02-Feb-2026
 P009	Filing Cabinet	Furniture	FurniHub	5	10	200	04-Feb-2026
 P010	Sticky Notes	Stationery	PaperWorld	40	60	3	06-Feb-2026
+
 STEP 4 — ORDERS DATA
 
 Create this table in Orders Data
 
 Columns
-Order ID	Product ID	Order Date	Expected Delivery	Actual Delivery	Quantity Ordered
-DEMO DATA — ORDERS DATA
+
 Order ID	Product ID	Order Date	Expected Delivery	Actual Delivery	Quantity Ordered
 O001	P001	01-Jan-2026	05-Jan-2026	06-Jan-2026	100
 O002	P002	03-Jan-2026	08-Jan-2026	07-Jan-2026	80
@@ -62,19 +65,20 @@ O007	P007	14-Jan-2026	20-Jan-2026	19-Jan-2026	300
 O008	P008	18-Jan-2026	25-Jan-2026	28-Jan-2026	20
 O009	P009	20-Jan-2026	27-Jan-2026	30-Jan-2026	8
 O010	P010	25-Jan-2026	30-Jan-2026	02-Feb-2026	100
+
 STEP 5 — SUPPLIERS DATA
 
 Create this table in Suppliers
 
 Columns
-Supplier	Contact Person	City	Lead Time Days
-DEMO DATA — SUPPLIERS
+
 Supplier	Contact Person	City	Lead Time Days
 TechSource	John Smith	New York	5
 FurniHub	Sarah Lee	Chicago	7
 PaperWorld	Michael Brown	Dallas	4
 PrintMax	David Clark	Boston	6
 VisionTech	Emma Wilson	Seattle	5
+
 STEP 6 — CONVERT INTO TABLES
 
 Select each dataset.
@@ -91,7 +95,9 @@ Sheet	Table Name
 Inventory Data	tblInventory
 Orders Data	tblOrders
 Suppliers	tblSuppliers
+
 STEP 7 — CREATE CALCULATED COLUMNS
+
 A. INVENTORY VALUE
 
 In Inventory Data
@@ -155,6 +161,7 @@ Recommended Reorder Point
 Formula:
 
 =[@[Average Daily Sales]]*[@[Lead Time]]
+
 STEP 8 — ORDERS DATA CALCULATIONS
 A. DELAY DAYS
 
@@ -203,6 +210,7 @@ Formula:
 Older Excel:
 
 =VLOOKUP([@[Product ID]],tblInventory,4,FALSE)
+
 STEP 9 — INVENTORY TURNOVER
 
 Go to Calculations
@@ -216,6 +224,7 @@ Inventory Turnover Ratio
 Example:
 
 =B2/B3
+
 STEP 10 — CREATE PIVOT TABLES
 PIVOT 1 — INVENTORY BY CATEGORY
 
@@ -235,6 +244,7 @@ Sum of Inventory Value
 Chart:
 
 Clustered Column Chart
+
 PIVOT 2 — SUPPLIER PERFORMANCE
 
 Source:
@@ -252,6 +262,7 @@ Average of Delay Days
 Chart:
 
 Bar Chart
+
 PIVOT 3 — STOCK STATUS
 
 Source:
@@ -269,6 +280,7 @@ Count of Product ID
 Chart:
 
 Pie Chart
+
 PIVOT 4 — MONTHLY ORDERS TREND
 
 Source:
@@ -302,6 +314,7 @@ Line Chart
 This becomes your Monthly Orders Trend chart.
 
 STEP 11 — CONDITIONAL FORMATTING
+
 LOW STOCK
 
 Select:
@@ -337,6 +350,7 @@ Cell Value > 0
 Color:
 
 Orange
+
 STEP 12 — KPI CARDS
 
 Create these in Dashboard sheet.
@@ -351,6 +365,7 @@ OVERSTOCK ITEMS
 =COUNTIF(tblInventory[Stock Status],"Overstock")
 DELAYED ORDERS
 =COUNTIF(tblOrders[Delivery Status],"Delayed")
+
 STEP 13 — ADD SLICERS
 
 Select Pivot Table.
@@ -364,21 +379,8 @@ Add slicers for:
 Category
 Supplier
 Stock Status
-STEP 14 — DASHBOARD LAYOUT
-Section	Content
-Top	KPI Cards
-Left	Inventory Charts
-Right	Supplier Charts
-Bottom	Monthly Trend
-FINAL INSIGHTS
 
-You can write insights like:
 
-Certain products are below reorder level.
-Some suppliers deliver late consistently.
-Overstock inventory is increasing holding cost.
-Electronics category has highest inventory value.
-Monthly order trend helps future planning.
 SKILLS LEARNED
 Excel Tables
 Pivot Tables
