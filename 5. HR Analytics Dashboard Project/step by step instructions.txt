@@ -1,0 +1,361 @@
+HR Analytics Dashboard in Microsoft Excel
+Complete Step-by-Step Data Analysis Project
+
+This project demonstrates how to build a complete HR Analytics Dashboard using only Microsoft Excel.
+
+The project focuses on:
+
+Employee Attrition Analysis
+Workforce Analysis
+Hiring Trends
+Department Performance
+Risk Prediction (Logic-Based)
+Interactive Dashboard Reporting
+
+This is a beginner-to-intermediate level data analytics project suitable for:
+
+Data Analyst Portfolio
+MIS Executive Portfolio
+HR Analyst Portfolio
+Business Analyst Practice
+Project Structure
+Recommended Excel Sheets
+Sheet Name	Purpose
+HR Data	Raw employee dataset
+Pivot Tables	All pivot table calculations
+Dashboard	Final dashboard visuals
+Helper Calc	Optional helper calculations
+
+
+STEP 1 — Create Raw Employee Dataset
+
+Create a sheet named:
+
+HR Data
+
+Create the following columns.
+
+Column Name
+Employee ID
+Name
+Gender
+Age
+Department
+Job Role
+Hire Date
+Exit Date
+Attrition
+Attrition Reason
+Salary
+Performance Rating
+Overtime
+Work Life Balance
+Job Satisfaction
+Training Hours
+Promotion Last 5Yrs
+Manager
+Location
+
+
+
+STEP 2 — Add Sample Employee Data
+
+Create around:
+
+300–500 employee records
+
+You can create data manually or generate random values.
+
+Example Data
+Employee ID	Name	Gender	Age	Department	Job Role	Hire Date	Exit Date	Attrition	Attrition Reason	Salary	Performance Rating	Overtime	Work Life Balance	Job Satisfaction	Training Hours	Promotion Last 5Yrs	Manager	Location
+EMP001	Rahul Sharma	Male	29	Sales	Executive	12-Jan-2021	
+	No	
+	45000	4	Yes	Poor	Medium	12	No	Amit Verma	Delhi
+EMP002	Priya Singh	Female	35	HR	Manager	15-Feb-2019	10-Mar-2024	Yes	Better Offer	78000	5	No	Good	High	24	Yes	Neha Kapoor	Mumbai
+EMP003	Karan Mehta	Male	31	IT	Analyst	01-Jun-2020	
+	No	
+	62000	3	Yes	Medium	Medium	18	No	Rohit Saini	Bangalore
+EMP004	Sneha Arora	Female	26	Finance	Associate	20-Aug-2022	05-Jan-2025	Yes	Stress	52000	2	Yes	Poor	Low	8	No	Kavita Jain	Pune
+
+
+
+STEP 3 — Convert Data into Excel Table
+
+Select all data.
+
+Press:
+
+CTRL + T
+
+Rename the table:
+
+tbl hr
+
+This makes formulas dynamic.
+
+
+
+STEP 4 — Create Helper Columns
+
+Add the following calculated columns.
+
+1. Tenure Years
+
+This numeric column is used for calculations and pivot tables.
+
+=YEARFRAC([@[Hire Date]],IF([@Attrition]="Yes",[@[Exit Date]],TODAY()))
+
+2. Tenure Display
+
+This converts decimal tenure into readable years and months.
+
+Example:
+
+5 Years 4 Months
+2 Years 8 Months
+
+=DATEDIF([@[Hire Date]],IF([@Attrition]="Yes",[@[Exit Date]],TODAY()),"Y") & " Years " & DATEDIF([@[Hire Date]],IF([@Attrition]="Yes",[@[Exit Date]],TODAY()),"YM") & " Months"
+
+3. Age Group
+=IFS(
+[@Age]<25,"Under 25",
+[@Age]<=35,"25-35",
+[@Age]<=45,"36-45",
+TRUE,"45+")
+
+4. Attrition Flag
+
+This converts:
+
+Yes = 1
+No = 0
+
+This makes calculations easier.
+
+=IF([@Attrition]="Yes",1,0)
+Why Attrition Flag is Important
+
+Example:
+
+Attrition	Attrition Flag
+Yes	1
+No	0
+
+This allows easy calculations like:
+
+=SUM(tbl hr[Attrition Flag])
+
+5. Risk Level (Logic-Based Prediction)
+
+This column identifies employees who may resign in future.
+
+Logic Used
+High Risk
+
+Employees who:
+
+work overtime
+have low satisfaction
+
+OR
+
+poor work life balance
+low performance rating
+Medium Risk
+
+Employees who:
+
+did not get promotion
+worked more than 4 years
+Low Risk
+
+Everyone else.
+
+Risk Level Formula
+=IFS(
+AND([@Overtime]="Yes",[@[Job Satisfaction]]="Low"),"High Risk",
+AND([@[Work Life Balance]]="Poor",[@[Performance Rating]]<=2),"High Risk",
+AND([@[Promotion Last 5Yrs]]="No",[@[Tenure Years]]>4),"Medium Risk",
+TRUE,"Low Risk")
+
+
+
+STEP 5 — Create Pivot Tables
+
+Create a new sheet:
+
+Pivot Tables
+
+Pivot Table 1 — Attrition Rate
+Rows
+Attrition
+Values
+Count of Employee ID
+
+Pivot Table 2 — Department Attrition
+Rows
+Department
+Values
+Sum of Attrition Flag
+
+Sort highest to lowest.
+
+Pivot Table 3 — Hiring Trend
+Rows
+Hire Date
+
+Group by:
+
+Year
+Values
+Count of Employee ID
+
+Pivot Table 4 — Gender Distribution
+Rows
+Gender
+Values
+Count of Employee ID
+
+Pivot Table 5 — Job Role Attrition
+Rows
+Job Role
+Values
+Sum of Attrition Flag
+
+Pivot Table 6 — Risk Level Summary
+Rows
+Risk Level
+Values
+Count of Employee ID
+
+Pivot Table 7 — Top Attrition Reasons
+Rows
+Attrition Reason
+Values
+Count of Employee ID
+
+This helps identify why employees are leaving.
+
+
+
+
+STEP 6 — Create Charts
+
+Recommended charts:
+
+Analysis	Chart Type
+Attrition by Department	Bar Chart
+Hiring Trend	Line Chart
+Gender Distribution	Doughnut Chart
+Job Role Attrition	Column Chart
+Risk Level Summary	Stacked Bar
+Age Group Analysis	Pie Chart
+Attrition Reasons	Horizontal Bar
+STEP 7 — Build Dashboard
+
+Create a new sheet:
+
+Dashboard
+
+The dashboard design is personal preference.
+
+You can use:
+
+KPI cards
+Charts
+Slicers
+Tables
+Icons
+Conditional formatting
+
+Focus mainly on readability and business insights.
+
+KPI Formulas Used in Dashboard
+Total Employees
+=COUNTA(tbl hr[Employee ID])
+Active Employees
+=COUNTIF(tbl hr[Attrition],"No")
+Employees Left
+=COUNTIF(tbl hr[Attrition],"Yes")
+Attrition Rate
+=COUNTIF(tbl hr[Attrition],"Yes")/COUNTA(tbl hr[Employee ID])
+
+Format as Percentage.
+
+Average Salary
+=AVERAGE(tbl hr[Salary])
+Average Tenure
+=AVERAGE(tbl hr[Tenure Years])
+
+
+
+STEP 8 — Add Slicers
+
+Insert slicers for:
+
+Department
+Gender
+Location
+Risk Level
+Promotion Last 5Yrs
+
+This makes the dashboard interactive.
+
+
+
+STEP 9 — High Risk Employees Table
+
+Filter:
+
+Risk Level = High Risk
+
+Show these columns:
+
+Name
+Department
+Manager
+Salary
+Job Satisfaction
+Overtime
+
+This simulates real HR intervention analysis.
+
+
+
+STEP 10 — Insights from Dashboard
+
+Your dashboard should answer questions like:
+
+Which department has highest attrition?
+Which age group resigns most?
+Does overtime increase attrition?
+Does lack of promotion affect retention?
+Which employees are at high risk?
+What are hiring trends over time?
+Example Insights
+Sales department has highest attrition.
+Employees doing overtime resign more frequently.
+Low satisfaction strongly impacts retention.
+Lack of promotion increases attrition risk.
+Employees aged 25–35 leave most frequently.
+
+These insights are useful for storytelling during interviews.
+
+Important Excel Concepts Used
+
+This project demonstrates:
+
+Excel Tables
+Pivot Tables
+Pivot Charts
+Dashboard Reporting
+Data Cleaning
+Conditional Formatting
+KPI Reporting
+HR Analytics
+Business Storytelling
+Logic-Based Prediction
+
+
+
+
