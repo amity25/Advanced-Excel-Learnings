@@ -1,0 +1,415 @@
+
+MARKETING CAMPAIGN PERFORMANCE TRACKER — EXCEL DASHBOARD GUIDE
+==============================================================
+
+PROJECT OVERVIEW
+----------------
+Build a professional Excel dashboard to analyze:
+- Campaign ROI
+- Conversion Rates
+- Channel Performance
+- Campaign Comparison
+- Interactive Charts and Filters
+
+FINAL DASHBOARD SHOULD INCLUDE
+------------------------------
+✓ KPI Cards
+✓ Slicers
+✓ Dropdown Filters
+✓ Dynamic Charts
+✓ Campaign Comparison Section
+✓ Winner Detection
+✓ Conditional Formatting
+✓ Interactive Legends & Titles
+
+==============================================================
+STEP 1 — CREATE SHEETS
+==============================================================
+
+Create these sheets:
+
+1. Raw_Data
+2. KPI_Calculations
+3. Pivot_Tables
+4. Dashboard
+5. Lists
+
+==============================================================
+STEP 2 — CREATE RAW DATA TABLE
+==============================================================
+
+Columns:
+
+Campaign_ID
+Campaign_Name
+Channel
+Region
+Start_Date
+End_Date
+Impressions
+Clicks
+Leads
+Conversions
+Spend
+Revenue
+
+Convert data into table:
+
+Ctrl + T
+
+Rename table:
+
+tbl_campaigns
+
+==============================================================
+STEP 3 — CALCULATED COLUMNS
+==============================================================
+
+CTR
+
+=IF([@Impressions]=0,0,[@Clicks]/[@Impressions])
+
+Conversion Rate
+
+=IF([@Clicks]=0,0,[@Conversions]/[@Clicks])
+
+Cost Per Lead
+
+=IF([@Leads]=0,0,[@Spend]/[@Leads])
+
+ROI %
+
+=IF([@Spend]=0,0,([@Revenue]-[@Spend]) / [@Spend])
+
+==============================================================
+STEP 4 — FIX DATE GROUPING ISSUE
+==============================================================
+
+If Pivot Table does not allow grouping by month:
+
+1. Create new column:
+   Real_Date
+
+2. Use:
+
+=DATEVALUE(E2)
+
+3. Copy → Paste Special → Values
+
+4. Format as Date
+
+5. Refresh Pivot Table
+
+6. Right-click date → Group → Months
+
+OPTIONAL HELPER COLUMNS
+-----------------------
+
+Month:
+
+=TEXT(E2,"mmm")
+
+Year:
+
+=YEAR(E2)
+
+Quarter:
+
+="Q"&ROUNDUP(MONTH(E2)/3,0)
+
+==============================================================
+STEP 5 — CREATE KPI SECTION
+==============================================================
+
+Total Spend
+
+=SUM(tbl_campaigns[Spend])
+
+Total Revenue
+
+=SUM(tbl_campaigns[Revenue])
+
+Total Conversions
+
+=SUM(tbl_campaigns[Conversions])
+
+Overall ROI
+
+=(Total_Revenue-Total_Spend)/Total_Spend
+
+==============================================================
+STEP 6 — CREATE DROPDOWN COMPARISON
+==============================================================
+
+Dashboard Layout:
+
+B1 = Campaign 1
+C1 = Campaign 2
+
+B2 = Dropdown
+C2 = Dropdown
+
+==============================================================
+STEP 7 — CREATE CAMPAIGN LIST
+==============================================================
+
+Go to Lists sheet.
+
+In A2:
+
+=UNIQUE(tbl_campaigns[Campaign_Name])
+
+==============================================================
+STEP 8 — CREATE DROPDOWNS
+==============================================================
+
+Select B2
+
+Data → Data Validation
+
+Allow = List
+
+Source:
+
+=Lists!$A$2:$A$1000
+
+Repeat same for C2.
+
+==============================================================
+STEP 9 — CREATE COMPARISON TABLE
+==============================================================
+
+IMPORTANT STRUCTURE:
+
+| Metric | =B2 | =C2 |
+| Revenue |
+| Spend |
+| ROI % |
+| Conversion Rate |
+
+Example:
+
+A5 = Metric
+B5 = =B2
+C5 = =C2
+
+This is VERY IMPORTANT because:
+- Chart legends use these headers
+- Legends update dynamically
+
+==============================================================
+STEP 10 — REVENUE FORMULAS
+==============================================================
+
+Campaign 1 Revenue:
+
+=SUMIFS(tbl_campaigns[Revenue],tbl_campaigns[Campaign_Name],B2)
+
+Campaign 2 Revenue:
+
+=SUMIFS(tbl_campaigns[Revenue],tbl_campaigns[Campaign_Name],C2)
+
+==============================================================
+STEP 11 — SPEND FORMULAS
+==============================================================
+
+Campaign 1 Spend:
+
+=SUMIFS(tbl_campaigns[Spend],tbl_campaigns[Campaign_Name],B2)
+
+Campaign 2 Spend:
+
+=SUMIFS(tbl_campaigns[Spend],tbl_campaigns[Campaign_Name],C2)
+
+==============================================================
+STEP 12 — ROI FORMULAS
+==============================================================
+
+Campaign 1 ROI:
+
+=(B6-B7)/B7
+
+Campaign 2 ROI:
+
+=(C6-C7)/C7
+
+Format as Percentage.
+
+==============================================================
+STEP 13 — CONVERSION RATE FORMULAS
+==============================================================
+
+Campaign 1:
+
+=SUMIFS(tbl_campaigns[Conversions],tbl_campaigns[Campaign_Name],B2)
+/
+SUMIFS(tbl_campaigns[Clicks],tbl_campaigns[Campaign_Name],B2)
+
+Campaign 2:
+
+=SUMIFS(tbl_campaigns[Conversions],tbl_campaigns[Campaign_Name],C2)
+/
+SUMIFS(tbl_campaigns[Clicks],tbl_campaigns[Campaign_Name],C2)
+
+==============================================================
+STEP 14 — CREATE DYNAMIC CHART
+==============================================================
+
+Select comparison table.
+
+Example:
+
+A5:C9
+
+Insert → Clustered Column Chart
+
+IMPORTANT:
+The chart MUST use the formula-driven table.
+
+Otherwise charts won't update.
+
+==============================================================
+STEP 15 — FIX CHART NOT UPDATING
+==============================================================
+
+If charts are not updating:
+
+1. Delete old chart
+2. Select comparison table again
+3. Insert new chart
+
+ALSO CHECK:
+
+Formulas → Calculation Options → Automatic
+
+==============================================================
+STEP 16 — DYNAMIC CHART TITLE
+==============================================================
+
+In any empty cell:
+
+="Campaign Comparison: "&B2&" vs "&C2
+
+Now:
+
+1. Click chart title
+2. Click formula bar
+3. Type:
+
+=A1
+
+Chart title now updates automatically.
+
+==============================================================
+STEP 17 — DYNAMIC LEGENDS
+==============================================================
+
+Legends come from table headers.
+
+Example:
+
+B5 = =B2
+C5 = =C2
+
+Now legends automatically show:
+- Summer Sale
+- Winter Offer
+
+and update dynamically.
+
+==============================================================
+STEP 18 — WINNER COLUMN
+==============================================================
+
+Add new column:
+
+Winner
+
+==============================================================
+STEP 19 — SMART WINNER FORMULA
+==============================================================
+
+Use ONE intelligent formula:
+
+=IF(B6=C6,"Tie",
+IF(A6="Spend",
+IF(B6<C6,$B$2,$C$2),
+IF(B6>C6,$B$2,$C$2)))
+
+Explanation:
+- Spend → lower wins
+- Revenue/ROI/Conversion → higher wins
+
+==============================================================
+STEP 20 — ADD TROPHY ICON
+==============================================================
+
+Formula:
+
+=IF(B6=C6,"Tie",
+IF(A6="Spend",
+IF(B6<C6,"🏆 "&$B$2,"🏆 "&$C$2),
+IF(B6>C6,"🏆 "&$B$2,"🏆 "&$C$2)))
+
+==============================================================
+STEP 21 — CONDITIONAL FORMATTING
+==============================================================
+
+Select Winner column.
+
+Home → Conditional Formatting
+
+Rule 1:
+If value = Campaign 1
+→ Green
+
+Rule 2:
+If value = Campaign 2
+→ Orange/Blue
+
+==============================================================
+STEP 22 — ADD SLICERS
+==============================================================
+
+Insert → Slicer
+
+Add:
+- Channel
+- Region
+- Month
+- Campaign
+
+==============================================================
+STEP 23 — PROFESSIONAL DASHBOARD LAYOUT
+==============================================================
+
+TOP:
+- Dashboard Title
+- KPI Cards
+
+LEFT:
+- Slicers
+
+CENTER:
+- Revenue Trend
+- ROI Comparison
+- Channel Charts
+
+BOTTOM:
+- Campaign Comparison Table
+- Winner Section
+
+==============================================================
+FINAL RESULT
+==============================================================
+
+You now have:
+
+✓ Interactive Excel Dashboard
+✓ Dynamic Campaign Comparison
+✓ Smart Winner Detection
+✓ Dynamic Legends
+✓ Dynamic Titles
+✓ Interactive Charts
+✓ KPI Tracking
+✓ Professional BI-style Dashboard
