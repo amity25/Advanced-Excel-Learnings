@@ -1,2 +1,2 @@
 # Advanced-Excel-Learnings
-Uploading projects to learn advnaced excel for data analysis
+Excel Learning bootcamps and projects with all necessary files needed to practice along 
